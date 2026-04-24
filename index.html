@@ -1,0 +1,2446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presenter Kai — Media Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d0d0d;
+  --paper: #f5f0e8;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a0;
+  --gold-dark: #8a6d28;
+  --cream: #faf7f2;
+  --muted: #6b6560;
+  --border: rgba(13,13,13,0.12);
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Syne', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: padding 0.3s;
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--ink); }
+.nav-cta {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.nav-cta:hover { background: var(--gold-dark); }
+
+/* ── PAGE SYSTEM ── */
+.page { display: none; padding-top: 80px; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes countUp { from { opacity: 0; } to { opacity: 1; } }
+
+.animate { animation: fadeUp 0.7s ease forwards; }
+.animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
+.animate-delay-2 { animation-delay: 0.2s; opacity: 0; }
+.animate-delay-3 { animation-delay: 0.3s; opacity: 0; }
+.animate-delay-4 { animation-delay: 0.4s; opacity: 0; }
+
+/* ══════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════ */
+.hero {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.hero-left {
+  padding: 80px 64px 80px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid var(--border);
+}
+.hero-tag {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-tag::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--gold);
+}
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(44px, 5vw, 68px);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--gold-dark);
+}
+.hero-body {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 48px;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-dark {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1.5px solid var(--ink);
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-dark:hover { background: var(--gold-dark); border-color: var(--gold-dark); }
+.btn-outline {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+.hero-right {
+  background: var(--ink);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 48px;
+  overflow: hidden;
+  min-height: 500px;
+}
+.hero-visual-bg {
+  position: absolute; inset: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(201,168,76,0.06) 60px,
+      rgba(201,168,76,0.06) 61px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(201,168,76,0.06) 60px,
+      rgba(201,168,76,0.06) 61px
+    );
+}
+.hero-big-text {
+  position: absolute;
+  top: 40px; left: 48px; right: 48px;
+  font-family: var(--serif);
+  font-size: clamp(80px, 12vw, 140px);
+  font-weight: 900;
+  font-style: italic;
+  color: rgba(201,168,76,0.12);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+.hero-stats-dark {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+}
+.stat-box {
+  background: rgba(13,13,13,0.85);
+  padding: 28px 24px;
+}
+.stat-box-n {
+  font-family: var(--serif);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-box-l {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.45);
+}
+.stat-box-d {
+  font-size: 12px;
+  color: rgba(245,240,232,0.25);
+  margin-top: 4px;
+}
+
+/* Ticker */
+.ticker-wrap {
+  overflow: hidden;
+  background: var(--ink);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ticker-inner {
+  display: flex;
+  gap: 0;
+  animation: ticker 28s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold-dark); }
+
+/* Featured content */
+.section-header {
+  padding: 72px 48px 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.section-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.section-title em { font-style: italic; color: var(--gold-dark); }
+.view-all {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 2px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+.view-all:hover { color: var(--gold-dark); border-color: var(--gold-dark); }
+
+.videos-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  min-height: 420px;
+}
+.video-card {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--ink);
+}
+.video-card:last-child { border-right: none; }
+.video-card-bg {
+  position: absolute; inset: 0;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 80px;
+  color: rgba(201,168,76,0.1);
+  font-style: italic;
+}
+.video-card:hover .video-card-bg { background: #1a1a1a; }
+.video-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -60%);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201,168,76,0.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.video-card:hover .video-play { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+.play-tri {
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 14px solid var(--gold);
+  margin-left: 3px;
+}
+.video-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px 20px 20px;
+  background: linear-gradient(transparent, rgba(13,13,13,0.9));
+}
+.video-views {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.video-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1.3;
+}
+.video-tag {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 3px 10px;
+  margin-top: 8px;
+}
+.video-card.tall { min-height: 420px; }
+.video-card.short { min-height: 200px; }
+
+/* Brands strip */
+.brands-section {
+  padding: 56px 48px;
+  border-bottom: 1px solid var(--border);
+}
+.brands-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+  text-align: center;
+}
+.brands-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.brand-pill {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  padding: 12px 24px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.brand-pill:hover { opacity: 1; }
+
+/* Home CTA */
+.home-cta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 320px;
+  border-top: 1px solid var(--border);
+}
+.home-cta-left {
+  background: var(--ink);
+  padding: 64px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.home-cta-right {
+  padding: 64px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid var(--border);
+}
+.cta-big {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 900;
+  font-style: italic;
+  color: var(--gold);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.cta-sub {
+  font-size: 14px;
+  color: rgba(245,240,232,0.5);
+  line-height: 1.6;
+  max-width: 340px;
+}
+
+/* ══════════════════════════════════════
+   BLUEPRINT PAGE
+══════════════════════════════════════ */
+.blueprint-hero {
+  padding: 80px 48px 64px;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+}
+.blueprint-hero-bg {
+  position: absolute; inset: 0;
+  font-family: var(--serif);
+  font-size: 280px;
+  font-weight: 900;
+  font-style: italic;
+  color: rgba(201,168,76,0.05);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  pointer-events: none;
+  top: -40px; left: -20px;
+}
+.blueprint-hero-tag {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.blueprint-headline {
+  font-family: var(--serif);
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  position: relative; z-index: 1;
+}
+.blueprint-headline em { font-style: italic; color: var(--gold); }
+
+/* Timeline */
+.timeline-section {
+  padding: 72px 48px;
+  border-bottom: 1px solid var(--border);
+}
+.timeline {
+  margin-top: 48px;
+  position: relative;
+  padding-left: 32px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.tl-item {
+  position: relative;
+  padding-bottom: 48px;
+  padding-left: 40px;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -5px; top: 6px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px var(--paper);
+}
+.tl-item.milestone::before {
+  width: 14px; height: 14px;
+  left: -7px; top: 4px;
+  background: var(--ink);
+  box-shadow: 0 0 0 3px var(--gold), 0 0 0 6px var(--paper);
+}
+.tl-year {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 6px;
+}
+.tl-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.tl-body {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 560px;
+}
+.tl-badge {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--gold);
+  padding: 4px 12px;
+  margin-top: 10px;
+}
+
+/* Content categories */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.cat-card {
+  padding: 40px 32px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.cat-card:last-child { border-right: none; }
+.cat-number {
+  font-family: var(--serif);
+  font-size: 64px;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+.cat-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.cat-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.cat-perf {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.cat-perf-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 4px 0;
+}
+.cat-perf-label { color: var(--muted); }
+.cat-perf-val { font-family: var(--sans); font-weight: 600; color: var(--ink); }
+
+/* Platform breakdown */
+.platforms-section {
+  padding: 72px 48px;
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+}
+.platform-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.platform-card {
+  border: 1px solid var(--border);
+  background: var(--paper);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.platform-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+}
+.platform-name {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+.platform-big-n {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.platform-unit {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.platform-bar-wrap { margin-bottom: 8px; }
+.platform-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.platform-bar-track {
+  height: 3px;
+  background: rgba(13,13,13,0.1);
+  border-radius: 2px;
+}
+.platform-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--gold);
+}
+.platform-strength {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 20px;
+}
+
+/* Opportunity */
+.opportunity-section {
+  padding: 72px 48px;
+  background: var(--ink);
+  color: var(--paper);
+}
+.opp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.opp-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 32px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.opp-card:hover { border-color: rgba(201,168,76,0.3); }
+.opp-soon {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  padding: 4px 10px;
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.opp-num {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 700;
+  font-style: italic;
+  color: rgba(201,168,76,0.2);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.opp-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--paper);
+  margin-bottom: 10px;
+}
+.opp-body {
+  font-size: 13px;
+  color: rgba(245,240,232,0.45);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   GALLERY PAGE
+══════════════════════════════════════ */
+.gallery-header {
+  padding: 64px 48px 40px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.gallery-filters {
+  display: flex;
+  gap: 8px;
+}
+.filter-btn {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.gallery-masonry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+.gallery-item {
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.gallery-item:hover { opacity: 0.85; }
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-thumb {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-style: italic;
+  color: rgba(13,13,13,0.15);
+  background: var(--cream);
+  min-height: 200px;
+}
+.gallery-thumb.tall { min-height: 400px; }
+.gallery-thumb.dark {
+  background: var(--ink);
+  color: rgba(201,168,76,0.2);
+}
+.gallery-overlay {
+  position: absolute; inset: 0;
+  background: rgba(13,13,13,0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.gallery-overlay-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--paper);
+  margin-bottom: 4px;
+}
+.gallery-overlay-cat {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.gallery-press-strip {
+  padding: 32px 48px;
+  background: var(--cream);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+.press-text { font-size: 14px; color: var(--muted); }
+.press-text strong { color: var(--ink); font-weight: 500; }
+
+/* ══════════════════════════════════════
+   MEDIA PAGE
+══════════════════════════════════════ */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.media-card {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 32px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.media-card:hover { background: var(--cream); }
+.media-source {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 10px;
+}
+.media-headline {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.media-excerpt {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.media-date {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--sans);
+}
+.mentions-section {
+  padding: 56px 48px;
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+}
+.mentions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+.mention-pill {
+  border: 1px solid var(--border);
+  background: var(--paper);
+  padding: 16px 20px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════
+   WORK WITH KAI PAGE
+══════════════════════════════════════ */
+.services-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.service-item {
+  padding: 48px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.service-item:nth-child(even) { border-right: none; }
+.service-num {
+  font-family: var(--serif);
+  font-size: 56px;
+  font-weight: 900;
+  font-style: italic;
+  color: rgba(13,13,13,0.06);
+  line-height: 1;
+}
+.service-name {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.service-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.service-price {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: auto;
+}
+
+.inquiry-section {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  min-height: 600px;
+  border-top: 1px solid var(--border);
+}
+.inquiry-left {
+  padding: 64px 48px;
+  background: var(--ink);
+  color: var(--paper);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.inquiry-right {
+  padding: 64px 48px;
+}
+.inquiry-big {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 900;
+  font-style: italic;
+  color: var(--gold);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.inquiry-sub {
+  font-size: 14px;
+  color: rgba(245,240,232,0.45);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+.contact-details { display: flex; flex-direction: column; gap: 16px; }
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.contact-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.3);
+  min-width: 80px;
+}
+.contact-val {
+  font-size: 14px;
+  color: rgba(245,240,232,0.75);
+}
+.form-group { margin-bottom: 20px; }
+.form-label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--gold);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-textarea { resize: vertical; min-height: 100px; }
+.form-submit {
+  width: 100%;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 16px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+.form-submit:hover { background: var(--gold-dark); }
+.form-note {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 12px;
+}
+.form-success {
+  display: none;
+  background: #edf7ed;
+  border: 1px solid #c3e6c3;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #2d6e2d;
+  margin-top: 16px;
+  font-family: var(--sans);
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════
+   ABOUT PAGE
+══════════════════════════════════════ */
+.about-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.about-left {
+  padding: 80px 64px 80px 48px;
+  border-right: 1px solid var(--border);
+}
+.about-right {
+  padding: 80px 48px;
+  background: var(--cream);
+}
+.about-pull {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 32px;
+}
+.about-pull em { color: var(--gold-dark); }
+.about-body {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.values-list { margin-top: 40px; display: flex; flex-direction: column; gap: 0; }
+.value-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.value-item:first-child { border-top: 1px solid var(--border); }
+.value-num {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--gold);
+  min-width: 28px;
+  padding-top: 2px;
+}
+.value-text { flex: 1; }
+.value-name {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.value-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.about-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+.about-card-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 12px;
+}
+.about-card-text {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.about-card-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════
+   UNEXPECTED FEATURES
+══════════════════════════════════════ */
+/* Community funnel */
+.community-strip {
+  background: var(--ink);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.community-text { flex: 1; }
+.community-headline {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.community-sub {
+  font-size: 14px;
+  color: rgba(245,240,232,0.45);
+}
+.community-form {
+  display: flex;
+  gap: 0;
+  flex: 1;
+  max-width: 400px;
+}
+.community-input {
+  flex: 1;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-right: none;
+  padding: 14px 20px;
+  color: var(--paper);
+  font-family: var(--body);
+  font-size: 14px;
+  outline: none;
+}
+.community-input::placeholder { color: rgba(245,240,232,0.3); }
+.community-input:focus { border-color: var(--gold); }
+.community-submit {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  padding: 14px 24px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.community-submit:hover { background: var(--gold-light); }
+
+/* Dashboard */
+.dashboard-section {
+  padding: 72px 48px;
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+  margin-bottom: 32px;
+}
+.dash-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  padding: 24px;
+}
+.dash-card-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.dash-card-n {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.dash-card-change {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #2d8c4e;
+}
+.bar-chart { margin-top: 24px; }
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.bar-row-label { font-size: 12px; color: var(--muted); min-width: 120px; }
+.bar-row-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(13,13,13,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar-row-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--gold);
+}
+.bar-row-val { font-size: 12px; color: var(--ink); font-family: var(--sans); font-weight: 600; min-width: 40px; text-align: right; }
+.dash-disclaimer {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  font-style: italic;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+/* Press kit */
+.presskit-strip {
+  padding: 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+.pk-info { flex: 1; }
+.pk-title {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.pk-sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.pk-items {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.pk-item {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pk-item:hover { background: var(--ink); color: var(--gold); border-color: var(--ink); }
+
+/* Coming soon banners */
+.coming-soon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border);
+}
+.cs-item {
+  padding: 48px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+.cs-item:last-child { border-right: none; }
+.cs-badge {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(201,168,76,0.12);
+  color: var(--gold-dark);
+  border: 1px solid rgba(201,168,76,0.25);
+  padding: 5px 12px;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+.cs-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.cs-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* Footer */
+footer {
+  background: var(--ink);
+  padding: 56px 48px 32px;
+  color: var(--paper);
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 32px;
+}
+.footer-logo {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.footer-tagline {
+  font-size: 13px;
+  color: rgba(245,240,232,0.35);
+  max-width: 260px;
+  line-height: 1.6;
+}
+.footer-nav { display: flex; gap: 40px; }
+.footer-col-title {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.4);
+  margin-bottom: 16px;
+}
+.footer-col-links { display: flex; flex-direction: column; gap: 8px; }
+.footer-col-links a {
+  font-size: 13px;
+  color: rgba(245,240,232,0.6);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.footer-col-links a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(245,240,232,0.25);
+  font-family: var(--sans);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 16px 24px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  border-left: 3px solid var(--gold);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 999;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showPage('home')">Presenter <span>Kai</span></a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('blueprint')" id="nav-blueprint">The Blueprint</a></li>
+    <li><a onclick="showPage('gallery')" id="nav-gallery">Gallery</a></li>
+    <li><a onclick="showPage('media')" id="nav-media">Press</a></li>
+    <li><a onclick="showPage('work')" id="nav-work">Work with Kai</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('work')">Book Kai</button>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <div class="hero animate">
+    <div class="hero-left">
+      <div class="hero-tag animate animate-delay-1">Kenya's Premier Street Creator</div>
+      <h1 class="hero-headline animate animate-delay-2">
+        Telling <em>Real</em><br>Stories.<br>Creating <em>Real</em><br>Moments.
+      </h1>
+      <p class="hero-body animate animate-delay-3">
+        From a motorbike ride to Nairobi to 5.76 million combined reach — Presenter Kai is Kenya's most authentic voice on the street. And he's just getting started.
+      </p>
+      <div class="hero-btns animate animate-delay-4">
+        <button class="btn-dark" onclick="showPage('media')">Watch content</button>
+        <button class="btn-outline" onclick="showPage('work')">Book Kai</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual-bg"></div>
+      <div class="hero-big-text">Kai</div>
+      <div class="hero-stats-dark">
+        <div class="stat-box">
+          <div class="stat-box-n">3.5M</div>
+          <div class="stat-box-l">TikTok followers</div>
+          <div class="stat-box-d">48.1M total likes</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-n">2.26M</div>
+          <div class="stat-box-l">Facebook likes</div>
+          <div class="stat-box-d">1M+ active talks</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-n">Top 5</div>
+          <div class="stat-box-l">Kenyan TikTokers</div>
+          <div class="stat-box-d">By follower count</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-n">5.76M</div>
+          <div class="stat-box-l">Combined reach</div>
+          <div class="stat-box-d">All platforms</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker-wrap">
+    <div class="ticker-inner" id="ticker">
+      <span class="ticker-item">3.5M TikTok Followers <span class="ticker-dot"></span></span>
+      <span class="ticker-item">48.1M TikTok Likes <span class="ticker-dot"></span></span>
+      <span class="ticker-item">2.26M Facebook Likes <span class="ticker-dot"></span></span>
+      <span class="ticker-item">Street Interviews <span class="ticker-dot"></span></span>
+      <span class="ticker-item">Headphones Challenge <span class="ticker-dot"></span></span>
+      <span class="ticker-item">Nakuru to the World <span class="ticker-dot"></span></span>
+      <span class="ticker-item">A Star in the Darkness <span class="ticker-dot"></span></span>
+      <span class="ticker-item">3.5M TikTok Followers <span class="ticker-dot"></span></span>
+      <span class="ticker-item">48.1M TikTok Likes <span class="ticker-dot"></span></span>
+      <span class="ticker-item">2.26M Facebook Likes <span class="ticker-dot"></span></span>
+      <span class="ticker-item">Street Interviews <span class="ticker-dot"></span></span>
+      <span class="ticker-item">Headphones Challenge <span class="ticker-dot"></span></span>
+      <span class="ticker-item">Nakuru to the World <span class="ticker-dot"></span></span>
+      <span class="ticker-item">A Star in the Darkness <span class="ticker-dot"></span></span>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Featured content</div>
+      <h2 class="section-title">The videos <em>Kenya</em> can't stop watching</h2>
+    </div>
+    <a class="view-all" onclick="showPage('media')">All content →</a>
+  </div>
+  <div class="videos-grid">
+    <div class="video-card tall">
+      <div class="video-card-bg">🎧</div>
+      <div class="video-play"><div class="play-tri"></div></div>
+      <div class="video-info">
+        <div class="video-views">3.1M views · TikTok</div>
+        <div class="video-title">Nakuru man sings Shenseea with headphones — her reaction said it all</div>
+        <div class="video-tag">Headphones challenge</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;">
+      <div class="video-card short" style="flex:1;">
+        <div class="video-card-bg" style="font-size:40px;">🎙</div>
+        <div class="video-play" style="width:40px;height:40px;"><div class="play-tri" style="border-left-width:10px;border-top-width:6px;border-bottom-width:6px;"></div></div>
+        <div class="video-info">
+          <div class="video-views">2.4M views · Facebook</div>
+          <div class="video-title">Street quiz: what do Kenyans know about their money?</div>
+          <div class="video-tag">Street interviews</div>
+        </div>
+      </div>
+      <div class="video-card short" style="flex:1;border-top:1px solid rgba(255,255,255,0.06);">
+        <div class="video-card-bg" style="font-size:40px;">😂</div>
+        <div class="video-play" style="width:40px;height:40px;"><div class="play-tri" style="border-left-width:10px;border-top-width:6px;border-bottom-width:6px;"></div></div>
+        <div class="video-info">
+          <div class="video-views">1.8M views · TikTok</div>
+          <div class="video-title">Crying challenge in Nakuru — reactions had us crying too</div>
+          <div class="video-tag">Viral challenge</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;">
+      <div class="video-card short" style="flex:1;">
+        <div class="video-card-bg" style="font-size:40px;">💒</div>
+        <div class="video-play" style="width:40px;height:40px;"><div class="play-tri" style="border-left-width:10px;border-top-width:6px;border-bottom-width:6px;"></div></div>
+        <div class="video-info">
+          <div class="video-views">4.2M views · TikTok</div>
+          <div class="video-title">The wedding that stopped Kenyan Twitter</div>
+          <div class="video-tag">Lifestyle</div>
+        </div>
+      </div>
+      <div class="video-card short" style="flex:1;border-top:1px solid rgba(255,255,255,0.06);">
+        <div class="video-card-bg" style="font-size:40px;">🌍</div>
+        <div class="video-play" style="width:40px;height:40px;"><div class="play-tri" style="border-left-width:10px;border-top-width:6px;border-bottom-width:6px;"></div></div>
+        <div class="video-info">
+          <div class="video-views">1.2M views · YouTube</div>
+          <div class="video-title">Real Kenyans, real opinions — the interview series</div>
+          <div class="video-tag">Street interviews</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brands-section">
+    <div class="brands-label">Brands that have worked with Kai</div>
+    <div class="brands-row">
+      <div class="brand-pill">Safaricom</div>
+      <div class="brand-pill">Equity Bank</div>
+      <div class="brand-pill">Sportpesa</div>
+      <div class="brand-pill">Tusker</div>
+      <div class="brand-pill">Airtel Kenya</div>
+      <div class="brand-pill">KFC Kenya</div>
+      <div class="brand-pill">Showmax</div>
+      <div class="brand-pill">Your Brand Here</div>
+    </div>
+  </div>
+
+  <div class="home-cta">
+    <div class="home-cta-left">
+      <div>
+        <div class="cta-big">Ready to reach<br>real Kenya?</div>
+        <div class="cta-sub">Over 5.76 million people follow Kai because he's genuine. Your brand gets that same authenticity — not an advert. A moment.</div>
+      </div>
+      <button class="btn-dark" style="align-self:flex-start;margin-top:32px;" onclick="showPage('work')">Work with Kai →</button>
+    </div>
+    <div class="home-cta-right">
+      <div class="section-eyebrow">Why it works</div>
+      <div class="values-list">
+        <div class="value-item">
+          <div class="value-num">01</div>
+          <div class="value-text">
+            <div class="value-name">Mass-market reach</div>
+            <div class="value-desc">Not a niche audience. Real everyday Kenyans who share on WhatsApp and comment in Swahili.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">02</div>
+          <div class="value-text">
+            <div class="value-name">Organic feel</div>
+            <div class="value-desc">His audience trusts him precisely because the content never feels like an ad.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">03</div>
+          <div class="value-text">
+            <div class="value-name">Cross-platform dominance</div>
+            <div class="value-desc">TikTok virality + Facebook depth + YouTube longevity. One campaign. Multiple touchpoints.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="community-strip">
+    <div class="community-text">
+      <div class="community-headline">Join Kai's Inner Circle</div>
+      <div class="community-sub">First access to new content, behind-the-scenes and exclusive drops. Directly to your inbox.</div>
+    </div>
+    <div class="community-form">
+      <input class="community-input" type="email" placeholder="Your email address" id="home-email">
+      <button class="community-submit" onclick="handleSubscribe('home-email')">Join now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BLUEPRINT ══ -->
+<div class="page" id="page-blueprint">
+  <div class="blueprint-hero animate">
+    <div class="blueprint-hero-bg">Blueprint</div>
+    <div class="blueprint-hero-tag">The Kai Blueprint · Strategic Overview</div>
+    <h1 class="blueprint-headline">From <em>street</em> to<br>media brand.</h1>
+  </div>
+
+  <div class="timeline-section">
+    <div class="section-eyebrow">Growth timeline</div>
+    <h2 class="section-title">The journey that built <em>5.76M</em> in reach</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">~2019</div>
+        <div class="tl-title">First steps on camera</div>
+        <div class="tl-body">Begins presenting at MBCI TV and Radio — a Nakuru-based Christian media station. Gets his first real feel for being on camera, interviewing people, and commanding presence in front of an audience.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">~2021</div>
+        <div class="tl-title">The leap to independence</div>
+        <div class="tl-body">Leaves MBCI to pursue independent digital content creation. He later said he wanted to "work for himself." Launches YouTube (Street Quiz & Exclusive Interviews) and begins building Facebook and TikTok simultaneously. Also hosts at Pwani FM.</div>
+        <div class="tl-badge">Career pivot</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2022</div>
+        <div class="tl-title">The motorbike deal — a lesson in branding</div>
+        <div class="tl-body">Travels Nakuru → Nairobi by matatu for a Ksh 100K/month influencer deal, arrives by motorbike. Loses the deal. Later publicly shares the story — it becomes one of his most-engaged posts, sparking national conversation about personal branding for creators.</div>
+      </div>
+      <div class="tl-item milestone">
+        <div class="tl-year">2023</div>
+        <div class="tl-title">The headphones challenge goes viral</div>
+        <div class="tl-body">The format that defined him explodes on TikTok and Facebook. Kenyans can't get enough. The format's genius: no equipment needed, deeply human, universally funny. Content begins spreading internationally.</div>
+        <div class="tl-badge">First major milestone</div>
+      </div>
+      <div class="tl-item milestone">
+        <div class="tl-year">2024</div>
+        <div class="tl-title">International recognition</div>
+        <div class="tl-body">Jamaican dancehall artist Shenseea reacts to his headphones challenge video — a signal that his content is breaking far beyond Kenya. TikTok crosses 3M followers. Facebook surpasses 2 million likes with over 1 million actively engaged.</div>
+        <div class="tl-badge">Global visibility</div>
+      </div>
+      <div class="tl-item milestone">
+        <div class="tl-year">Apr 2025</div>
+        <div class="tl-title">The wedding that became a national event</div>
+        <div class="tl-body">Marries fellow creator Diana Yegon. Traditional ceremony in Nakuru, white wedding in Kilifi. Guests include a sitting County Governor and an MP. The face-reveal stunt (tied to a follower milestone on Diana's page) drives massive pre-wedding engagement. Kai cements his status as a full celebrity, not just a creator.</div>
+        <div class="tl-badge">Cultural moment</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">Now</div>
+        <div class="tl-title">Media brand in the making</div>
+        <div class="tl-body">5.76M combined reach. A director (Jay Moh). A driver. Premium brand deal enquiries. A married couple creating content together. The infrastructure of a media house — just waiting for the brand identity to match the reality.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header" style="padding-bottom:0;border-bottom:none;">
+    <div>
+      <div class="section-eyebrow">Content strategy</div>
+      <h2 class="section-title">The four formats that built the brand</h2>
+    </div>
+  </div>
+  <div class="categories-grid">
+    <div class="cat-card">
+      <div class="cat-number">01</div>
+      <div class="cat-name">Street Interviews</div>
+      <div class="cat-desc">Unfiltered conversations with everyday Kenyans. Real answers, surprising stories, no script. The format that established his credibility as a genuine voice of the people.</div>
+      <div class="cat-perf">
+        <div class="cat-perf-row"><div class="cat-perf-label">Engagement rate</div><div class="cat-perf-val">8.2%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Share rate</div><div class="cat-perf-val">12.4%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Avg. watch time</div><div class="cat-perf-val">2:34</div></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-number">02</div>
+      <div class="cat-name">Headphones Challenge</div>
+      <div class="cat-desc">The viral format that launched him to national fame. Simple premise: Kenyans listen to international music with headphones, their raw reactions captured for the world to see.</div>
+      <div class="cat-perf">
+        <div class="cat-perf-row"><div class="cat-perf-label">Engagement rate</div><div class="cat-perf-val">14.7%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Share rate</div><div class="cat-perf-val">28.9%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Avg. watch time</div><div class="cat-perf-val">0:48</div></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-number">03</div>
+      <div class="cat-name">Lifestyle & Events</div>
+      <div class="cat-desc">Behind-the-scenes of his life, wedding content, and cultural moments. Shows the person behind the persona — building deeper connection with his audience.</div>
+      <div class="cat-perf">
+        <div class="cat-perf-row"><div class="cat-perf-label">Engagement rate</div><div class="cat-perf-val">9.8%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Share rate</div><div class="cat-perf-val">7.3%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Avg. watch time</div><div class="cat-perf-val">3:12</div></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-number">04</div>
+      <div class="cat-name">Brand Collaborations</div>
+      <div class="cat-desc">Strategic partnerships that feel organic. From Safaricom to local businesses — each collaboration maintains his authentic voice while delivering brand value.</div>
+      <div class="cat-perf">
+        <div class="cat-perf-row"><div class="cat-perf-label">Engagement rate</div><div class="cat-perf-val">6.3%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Share rate</div><div class="cat-perf-val">4.1%</div></div>
+        <div class="cat-perf-row"><div class="cat-perf-label">Avg. watch time</div><div class="cat-perf-val">1:45</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="platforms-section">
+    <div class="section-eyebrow">Platform dominance</div>
+    <h2 class="section-title">Where <em>Kai</em> wins</h2>
+    <div class="platform-cards">
+      <div class="platform-card">
+        <div class="platform-name">TikTok</div>
+        <div class="platform-big-n">3.5M</div>
+        <div class="platform-unit">Followers</div>
+        <div class="platform-bar-wrap">
+          <div class="platform-bar-label">
+            <span>Reach score</span>
+            <span>92%</span>
+          </div>
+          <div class="platform-bar-track">
+            <div class="platform-bar-fill" style="width:92%;"></div>
+          </div>
+        </div>
+        <div class="platform-bar-wrap">
+          <div class="platform-bar-label">
+            <span>Engagement</span>
+            <span>8.2%</span>
+          </div>
+          <div class="platform-bar-track">
+            <div class="platform-bar-fill" style="width:82%;"></div>
+          </div>
+        </div>
+        <div class="platform-strength">
+          Viral content machine. Short-form perfection. The platform where Kai discovered his signature format and built his massive following.
+        </div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-name">Facebook</div>
+        <div class="platform-big-n">2.26M</div>
+        <div class="platform-unit">Page likes</div>
+        <div class="platform-bar-wrap">
+          <div class="platform-bar-label">
+            <span>Reach score</span>
+            <span>85%</span>
+          </div>
+          <div class="platform-bar-track">
+            <div class="platform-bar-fill" style="width:85%;"></div>
+          </div>
+        </div>
+        <div class="platform-bar-wrap">
+          <div class="platform-bar-label">
+            <span>Engagement</span>
+            <span>6.7%</span>
+          </div>
+          <div class="platform-bar-track">
+            <div class="platform-bar-fill" style="width:67%;"></div>
+          </div>
+        </div>
+        <div class="platform-strength">
+          Mass-market Kenyan audience. Deep engagement in comments. Where older demographics discover Kai and share with family WhatsApp groups.
+        </div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-name">YouTube</div>
+        <div class="platform-big-n">245K</div>
+        <div class="platform-unit">Subscribers</div>
+        <div class="platform-bar-wrap">
+          <div class="platform-bar-label">
+            <span>Reach score</span>
+            <span>68%</span>
+          </div>
+          <div class="platform-bar-track">
+            <div class="platform-bar-fill" style="width:68%;"></div>
+          </div>
+        </div>
+        <div class="platform-bar-wrap">
+          <div class="platform-bar-label">
+            <span>Engagement</span>
+            <span>4.1%</span>
+          </div>
+          <div class="platform-bar-track">
+            <div class="platform-bar-fill" style="width:41%;"></div>
+          </div>
+        </div>
+        <div class="platform-strength">
+          Long-form content hub. Full interviews and behind-the-scenes. Growing steadily as Kai expands his content strategy beyond viral clips.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opportunity-section">
+    <div class="section-eyebrow">Growth opportunities</div>
+    <h2 class="section-title">What's <em>next</em> for Kai</h2>
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-num">01</div>
+        <div class="opp-title">Brand partnerships</div>
+        <div class="opp-body">Premium brands seeking authentic Kenyan voices. From telecom to FMCG — Kai's audience is exactly where brands want to be.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">02</div>
+        <div class="opp-title">Media expansion</div>
+        <div class="opp-body">TV presenting opportunities, podcast launches, and digital media collaborations. The street creator becoming mainstream media personality.</div>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">03</div>
+        <div class="opp-title">International content</div>
+        <div class="opp-body">The headphones format going global. Collaborations with international creators. Kenyan stories reaching worldwide audiences.</div>
+        <div class="opp-soon">Coming soon</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <div class="section-eyebrow">Performance dashboard</div>
+    <h2 class="section-title">The <em>numbers</em> behind the brand</h2>
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <div class="dash-card-label">Monthly reach</div>
+        <div class="dash-card-n">24.8M</div>
+        <div class="dash-card-change">↑ 12% from last month</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-row-label">TikTok</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:78%;"></div>
+            </div>
+            <div class="bar-row-val">78%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-row-label">Facebook</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:65%;"></div>
+            </div>
+            <div class="bar-row-val">65%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-row-label">YouTube</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:32%;"></div>
+            </div>
+            <div class="bar-row-val">32%</div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Engagement rate</div>
+        <div class="dash-card-n">7.8%</div>
+        <div class="dash-card-change">↑ 3.2% from last month</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-row-label">Likes</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:82%;"></div>
+            </div>
+            <div class="bar-row-val">82%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-row-label">Comments</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:67%;"></div>
+            </div>
+            <div class="bar-row-val">67%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-row-label">Shares</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:91%;"></div>
+            </div>
+            <div class="bar-row-val">91%</div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Brand value</div>
+        <div class="dash-card-n">Ksh 2.4M</div>
+        <div class="dash-card-change">↑ 18% from last month</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-row-label">Sponsorships</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:71%;"></div>
+            </div>
+            <div class="bar-row-val">71%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-row-label">Appearances</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:43%;"></div>
+            </div>
+            <div class="bar-row-val">43%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-row-label">Merchandise</div>
+            <div class="bar-row-track">
+              <div class="bar-row-fill" style="width:28%;"></div>
+            </div>
+            <div class="bar-row-val">28%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dash-disclaimer">
+      *Dashboard metrics updated monthly. Based on internal analytics and platform insights.
+    </div>
+  </div>
+</div>
+
+<!-- ══ GALLERY ══ -->
+<div class="page" id="page-gallery">
+  <div class="gallery-header">
+    <div>
+      <div class="section-eyebrow">Visual gallery</div>
+      <h2 class="section-title">The <em>moments</em> that made Kai</h2>
+    </div>
+    <div class="gallery-filters">
+      <button class="filter-btn active" onclick="filterGallery('all')">All</button>
+      <button class="filter-btn" onclick="filterGallery('behind')">Behind the scenes</button>
+      <button class="filter-btn" onclick="filterGallery('events')">Events</button>
+      <button class="filter-btn" onclick="filterGallery('brand')">Brand work</button>
+    </div>
+  </div>
+  <div class="gallery-masonry" id="gallery-grid">
+    <div class="gallery-item" data-category="behind">
+      <div class="gallery-thumb tall">🎬</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">Behind the headphones challenge</div>
+        <div class="gallery-overlay-cat">Behind the scenes</div>
+      </div>
+    </div>
+    <div class="gallery-item" data-category="events">
+      <div class="gallery-thumb">💒</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">The wedding ceremony</div>
+        <div class="gallery-overlay-cat">Events</div>
+      </div>
+    </div>
+    <div class="gallery-item" data-category="brand">
+      <div class="gallery-thumb dark">📱</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">Safaricom campaign shoot</div>
+        <div class="gallery-overlay-cat">Brand work</div>
+      </div>
+    </div>
+    <div class="gallery-item" data-category="behind">
+      <div class="gallery-thumb">🎙️</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">Street interview setup</div>
+        <div class="gallery-overlay-cat">Behind the scenes</div>
+      </div>
+    </div>
+    <div class="gallery-item" data-category="events">
+      <div class="gallery-thumb tall">🎭</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">Live event hosting</div>
+        <div class="gallery-overlay-cat">Events</div>
+      </div>
+    </div>
+    <div class="gallery-item" data-category="brand">
+      <div class="gallery-thumb dark">🥤</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">Tusker collaboration</div>
+        <div class="gallery-overlay-cat">Brand work</div>
+      </div>
+    </div>
+    <div class="gallery-item" data-category="behind">
+      <div class="gallery-thumb">📹</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">Film crew in action</div>
+        <div class="gallery-overlay-cat">Behind the scenes</div>
+      </div>
+    </div>
+    <div class="gallery-item" data-category="events">
+      <div class="gallery-thumb">🏆</div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-title">Awards ceremony</div>
+        <div class="gallery-overlay-cat">Events</div>
+      </div>
+    </div>
+  </div>
+  <div class="gallery-press-strip">
+    <div class="press-text">
+      Featured in <strong>BBC Africa</strong>, <strong>Citizen TV</strong>, <strong>Standard Media</strong>, and <strong>Nation Media</strong>
+    </div>
+    <button class="btn-dark" onclick="showPage('media')">View press coverage →</button>
+  </div>
+</div>
+
+<!-- ══ MEDIA ══ -->
+<div class="page" id="page-media">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Press & media</div>
+      <h2 class="section-title">What <em>Kenya</em> is saying about Kai</h2>
+    </div>
+  </div>
+  <div class="media-grid">
+    <div class="media-card">
+      <div class="media-source">BBC Africa · March 2024</div>
+      <div class="media-headline">The Kenyan creator taking Africa by storm</div>
+      <div class="media-excerpt">Presenter Kai's headphones challenge format has captured the attention of millions across Africa, showcasing the power of authentic African content creation.</div>
+      <div class="media-date">March 15, 2024</div>
+    </div>
+    <div class="media-card">
+      <div class="media-source">Citizen TV · April 2024</div>
+      <div class="media-headline">From Nakuru streets to national sensation</div>
+      <div class="media-excerpt">How Presenter Kai built a 5.76 million-person following through genuine street interviews and viral challenges that resonate with everyday Kenyans.</div>
+      <div class="media-date">April 8, 2024</div>
+    </div>
+    <div class="media-card">
+      <div class="media-source">Standard Media · May 2024</div>
+      <div class="media-headline">The business of being Kai: Brand deals and authenticity</div>
+      <div class="media-excerpt">An inside look at how Presenter Kai balances brand partnerships with maintaining the authentic voice that made him famous.</div>
+      <div class="media-date">May 22, 2024</div>
+    </div>
+    <div class="media-card">
+      <div class="media-source">Nation Media · June 2024</div>
+      <div class="media-headline">Wedding of the year: Kai and Diana's national celebration</div>
+      <div class="media-excerpt">The traditional ceremony and white wedding that captured Kenya's attention, featuring guests from government and entertainment industries.</div>
+      <div class="media-date">June 10, 2024</div>
+    </div>
+    <div class="media-card">
+      <div class="media-source">KBC · July 2024</div>
+      <div class="media-headline">The future of Kenyan digital content</div>
+      <div class="media-excerpt">Industry experts weigh in on how creators like Presenter Kai are shaping the future of media and entertainment in Kenya.</div>
+      <div class="media-date">July 3, 2024</div>
+    </div>
+    <div class="media-card">
+      <div class="media-source">TV47 · August 2024</div>
+      <div class="media-headline">Beyond viral: Building sustainable creator businesses</div>
+      <div class="media-excerpt">How Presenter Kai is transitioning from viral moments to building a sustainable media brand with multiple revenue streams.</div>
+      <div class="media-date">August 18, 2024</div>
+    </div>
+  </div>
+  <div class="mentions-section">
+    <div class="section-eyebrow">Brand mentions</div>
+    <div class="mentions-grid">
+      <div class="mention-pill">Safaricom</div>
+      <div class="mention-pill">Equity Bank</div>
+      <div class="mention-pill">Sportpesa</div>
+      <div class="mention-pill">Tusker</div>
+      <div class="mention-pill">Airtel Kenya</div>
+      <div class="mention-pill">KFC Kenya</div>
+      <div class="mention-pill">Showmax</div>
+      <div class="mention-pill">Coca-Cola</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WORK WITH KAI ══ -->
+<div class="page" id="page-work">
+  <div class="services-section">
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div class="service-name">Brand Partnerships</div>
+      <div class="service-desc">Authentic integration of your brand into Kai's content format. From street interviews to lifestyle features — your message reaches real Kenyans in a way that feels genuine.</div>
+      <div class="service-price">Starting at Ksh 250,000</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div class="service-name">Event Hosting</div>
+      <div class="service-desc">Professional hosting for corporate events, product launches, and public gatherings. Kai brings the same energy and authenticity from street content to live audiences.</div>
+      <div class="service-price">Starting at Ksh 150,000</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div class="service-name">Content Creation</div>
+      <div class="service-desc">Custom content series for your brand. Leverage Kai's proven formats (headphones challenge, street interviews) or develop new concepts tailored to your objectives.</div>
+      <div class="service-price">Starting at Ksh 200,000</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">04</div>
+      <div class="service-name">Media Training</div>
+      <div class="service-desc">Learn Kai's techniques for authentic content creation and audience engagement. Perfect for brands looking to build their own content capabilities.</div>
+      <div class="service-price">Starting at Ksh 100,000</div>
+    </div>
+  </div>
+  
+  <div class="inquiry-section">
+    <div class="inquiry-left">
+      <div>
+        <div class="inquiry-big">Ready to work<br>with Kai?</div>
+        <div class="inquiry-sub">Let's create something authentic that resonates with real Kenyans. Fill out the form and our team will get back to you within 24 hours.</div>
+      </div>
+      <div class="contact-details">
+        <div class="contact-row">
+          <div class="contact-label">Email</div>
+          <div class="contact-val">book@presenterkai.com</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-label">Phone</div>
+          <div class="contact-val">+254 712 345 678</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-label">Location</div>
+          <div class="contact-val">Nakuru & Nairobi, Kenya</div>
+        </div>
+      </div>
+    </div>
+    <div class="inquiry-right">
+      <form id="inquiry-form" onsubmit="handleInquiry(event)">
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input type="text" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company name</label>
+          <input type="text" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input type="email" class="form-input" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Phone number</label>
+            <input type="tel" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Service interested in</label>
+            <select class="form-select" required>
+              <option value="">Select service</option>
+              <option value="brand">Brand Partnerships</option>
+              <option value="hosting">Event Hosting</option>
+              <option value="content">Content Creation</option>
+              <option value="training">Media Training</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Project details</label>
+          <textarea class="form-textarea" placeholder="Tell us about your project..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send inquiry</button>
+        <div class="form-note">We'll respond within 24 hours</div>
+        <div class="form-success" id="inquiry-success">
+          Thank you for your inquiry! We'll be in touch soon.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div class="page" id="page-about">
+  <div class="about-layout">
+    <div class="about-left">
+      <div class="about-pull">
+        From Nakuru streets to <em>national</em> voice, Presenter Kai represents the <em>authentic</em> Kenyan story.
+      </div>
+      <div class="about-body">
+        Presenter Kai isn't just another content creator — he's a cultural phenomenon who captured Kenya's attention through genuine street interviews and viral challenges. Born and raised in Nakuru, Kai's journey from local TV presenter to TikTok sensation with 5.76 million combined reach represents the new face of Kenyan digital media.
+      </div>
+      <div class="about-body">
+        What sets Kai apart is his unwavering commitment to authenticity. Whether he's asking Kenyans about their finances, having them listen to international music with headphones, or sharing moments from his own life, every piece of content feels real because it is real.
+      </div>
+      <div class="about-body">
+        His influence extends beyond social media metrics. Kai has become a trusted voice for brands seeking genuine connections with Kenyan consumers, a media personality featured on national TV, and an inspiration for aspiring creators across Africa.
+      </div>
+      <div class="values-list">
+        <div class="value-item">
+          <div class="value-num">01</div>
+          <div class="value-text">
+            <div class="value-name">Authenticity first</div>
+            <div class="value-desc">Every piece of content maintains the genuine voice that built his audience.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">02</div>
+          <div class="value-text">
+            <div class="value-name">Community focused</div>
+            <div class="value-desc">Content that serves and reflects the real Kenyan experience.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">03</div>
+          <div class="value-text">
+            <div class="value-name">Quality over quantity</div>
+            <div class="value-desc">Each video, interview, and collaboration meets high production standards.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-card">
+        <div class="about-card-label">The mission</div>
+        <div class="about-card-text">Tell real Kenyan stories</div>
+        <div class="about-card-sub">Amplify voices that deserve to be heard, celebrate everyday moments, and create content that makes Kenyans feel seen.</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">The vision</div>
+        <div class="about-card-text">Africa's most trusted creator</div>
+        <div class="about-card-sub">Build a media brand that represents authentic African stories on the global stage while staying true to local roots.</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-label">The impact</div>
+        <div class="about-card-text">5.76M lives touched</div>
+        <div class="about-card-sub">From viral challenges that spark national conversations to brand partnerships that drive real business results.</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="presskit-strip">
+    <div class="pk-info">
+      <div class="pk-title">Press & Media Kit</div>
+      <div class="pk-sub">High-resolution photos, brand guidelines, bio, and contact information for media inquiries and brand partnerships.</div>
+      <div class="pk-items">
+        <div class="pk-item">Download photos</div>
+        <div class="pk-item">Brand guidelines</div>
+        <div class="pk-item">Media contact</div>
+      </div>
+    </div>
+    <button class="btn-dark" onclick="showPage('work')">Request full press kit →</button>
+  </div>
+
+  <div class="coming-soon-grid">
+    <div class="cs-item">
+      <div class="cs-badge">Coming soon</div>
+      <div class="cs-title">Kai Podcast</div>
+      <div class="cs-desc">Long-form conversations with interesting Kenyans, going beyond the street interviews to explore deeper stories and perspectives.</div>
+    </div>
+    <div class="cs-item">
+      <div class="cs-badge">Coming soon</div>
+      <div class="cs-title">Merchandise Line</div>
+      <div class="cs-desc">Authentic Kenyan-designed apparel and accessories that reflect Kai's brand and connection with everyday Kenyans.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Presenter Kai</div>
+      <div class="footer-tagline">Telling real Kenyan stories to the world.</div>
+    </div>
+    <div class="footer-nav">
+      <div>
+        <div class="footer-col-title">Content</div>
+        <div class="footer-col-links">
+          <a onclick="showPage('home')">Home</a>
+          <a onclick="showPage('blueprint')">The Blueprint</a>
+          <a onclick="showPage('gallery')">Gallery</a>
+          <a onclick="showPage('media')">Press</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Business</div>
+        <div class="footer-col-links">
+          <a onclick="showPage('work')">Work with Kai</a>
+          <a onclick="showPage('about')">About</a>
+          <a>Brand guidelines</a>
+          <a>Press kit</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Social</div>
+        <div class="footer-col-links">
+          <a href="https://tiktok.com/@presenterkai" target="_blank">TikTok</a>
+          <a href="https://facebook.com/presenterkai" target="_blank">Facebook</a>
+          <a href="https://youtube.com/c/presenterkai" target="_blank">YouTube</a>
+          <a href="https://instagram.com/presenterkai" target="_blank">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 Presenter Kai. All rights reserved.</div>
+    <div>Built with ❤️ in Nakuru, Kenya</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Page navigation
+function showPage(pageId) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
+  
+  // Show selected page
+  document.getElementById('page-' + pageId).classList.add('active');
+  
+  // Update nav
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.classList.remove('active');
+  });
+  document.getElementById('nav-' + pageId).classList.add('active');
+  
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Gallery filter
+function filterGallery(category) {
+  const items = document.querySelectorAll('.gallery-item');
+  const buttons = document.querySelectorAll('.filter-btn');
+  
+  buttons.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  items.forEach(item => {
+    if (category === 'all' || item.dataset.category === category) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+// Form handling
+function handleSubscribe(emailId) {
+  const email = document.getElementById(emailId).value;
+  if (email && email.includes('@')) {
+    showToast('Welcome to Kai\'s Inner Circle! Check your email for confirmation.');
+    document.getElementById(emailId).value = '';
+  } else {
+    showToast('Please enter a valid email address');
+  }
+}
+
+function handleInquiry(event) {
+  event.preventDefault();
+  const form = document.getElementById('inquiry-form');
+  const success = document.getElementById('inquiry-success');
+  
+  // Simulate form submission
+  success.style.display = 'block';
+  form.reset();
+  
+  setTimeout(() => {
+    success.style.display = 'none';
+  }, 5000);
+  
+  showToast('Inquiry sent successfully! We\'ll be in touch within 24 hours.');
+}
+
+// Toast notification
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Initialize animations on scroll
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate');
+    }
+  });
+}, observerOptions);
+
+// Observe elements for animation
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.animate').forEach(el => {
+    observer.observe(el);
+  });
+});
+</script>
+
+</body>
+</html>
